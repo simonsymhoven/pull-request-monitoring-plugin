@@ -1,0 +1,22 @@
+node {
+    stage ('Pull Request Monitoring - Dashboard Configuration') {
+        monitoring (
+            '''
+            [
+                {
+                    "id": "first-demo-portlet",
+                    "width": 400,
+                    "height": 400,
+                    "color": "#000000"
+                },
+                {
+                    "id": "first-demo-portlet",
+                    "width": 600,
+                    "height": 400,
+                    "color": "#ABABAB"
+                }
+            ]
+            '''
+        )
+    }
+}
