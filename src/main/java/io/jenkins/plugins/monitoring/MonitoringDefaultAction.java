@@ -43,16 +43,16 @@ import static j2html.TagCreator.*;
  */
 public class MonitoringDefaultAction implements RunAction2, StaplerProxy {
     private static final Logger LOGGER = Logger.getLogger(MonitoringDefaultAction.class.getName());
-    private transient Run<?, ?> run;
+    private transient Run<?, ?> build;
 
     /**
      * Creates a new instance of {@link MonitoringDefaultAction}.
      *
-     * @param run
+     * @param build
      *          the run that owns this action.
      */
-    public MonitoringDefaultAction(final Run<?, ?> run) {
-        this.run = run;
+    public MonitoringDefaultAction(final Run<?, ?> build) {
+        this.build = build;
     }
 
     @Override
@@ -72,16 +72,16 @@ public class MonitoringDefaultAction implements RunAction2, StaplerProxy {
 
     @Override
     public void onAttached(final Run<?, ?> build) {
-        this.run = build;
+        this.build = build;
     }
 
     @Override
     public void onLoad(final Run<?, ?>  build) {
-        this.run = build;
+        this.build = build;
     }
 
     public Run<?, ?> getRun() {
-        return run;
+        return build;
     }
 
     public String getPortlets() {
@@ -154,9 +154,9 @@ public class MonitoringDefaultAction implements RunAction2, StaplerProxy {
      *          the reference build as {@link Optional}.
      */
     private Optional<Run<?, ?>> getReferenceBuild() {
-        FilteredLog log = new FilteredLog("");
+        FilteredLog l = new FilteredLog("");
         ReferenceFinder referenceFinder = new ReferenceFinder();
-        return referenceFinder.findReference(getRun(), log);
+        return referenceFinder.findReference(getRun(), l);
     }
 
     /**
