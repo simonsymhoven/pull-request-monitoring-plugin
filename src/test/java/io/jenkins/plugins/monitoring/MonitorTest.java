@@ -172,6 +172,33 @@ public class MonitorTest {
     }
 
     /**
+     * Test.
+     */
+    @Test
+    public void shouldSkipAddingPortletToConfigurationWhenPortletAlreadyAdded() {
+
+        try {
+            WorkflowMultiBranchProject project = createRepositoryWithPr("Jenkinsfile.custom2");
+
+            project.scheduleBuild2(0);
+            jenkinsRule.waitUntilNoActivity();
+
+            final WorkflowJob job = project.getItems().iterator().next();
+            final WorkflowRun build = job.getLastBuild();
+            MonitoringCustomAction action = build.getAction(MonitoringCustomAction.class);
+
+            jenkinsRule.assertBuildStatusSuccess(build);
+            jenkinsRule.assertLogContains(
+                    "[Monitor] Portlet with ID 'first-demo-portlet' already defined in list of portlets. " +
+                            "Skip adding this portlet!", build);
+        }
+        catch (Exception e) {
+            throw new AssertionError(e);
+        }
+
+    }
+
+    /**
      * Test that run fails, if invalid configuration is provided in pipeline.
      */
     @Test
